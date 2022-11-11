@@ -1,0 +1,43 @@
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse; /*avoid double border*/
+  text-align: left; /*table data text content alignment*/
+}
+
+th,
+td {
+  padding: 15px; /*Cell padding is the space between the cell edges and the cell content. apply for <td> or <th>*/
+}
+
+table {
+  border-spacing: 30px; /*Cell spacing is the space between each cell. apply for <table>*/
+}
+
+tr:nth-child(odd) {
+  /*zebra stripe for data row*/
+  background-color: #d6eeee;
+}
+    
+/* th:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+
+td:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+} */
+
+tr {
+  border-bottom: 1px solid #ddd; /*Horizontal Dividers*/
+}
+
+tr:hover {
+  background-color: #ddd;
+} /*hover data cell*/
+/* th:hover {
+  background-color: #d6eeee;
+} 
+tr:hover {
+  background-color: #d6eeee;
+}  */

@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { TablePost } from "./common/constants/view";
+import { useFetchData } from "./common/custom-hooks/useFetchData";
+import { usePreviewDataJSON } from "./common/custom-hooks/usePreviewDataJson";
+import { CustomizableSearchBar } from "./components/customizableSearchBar";
+import { CustomizableTableContent } from "./components/customizableTableContent";
+import { CustomizableTablePagination } from "./components/customizableTablePagination";
 
 function App() {
+  const { data, onFetchData } = useFetchData();
+  const { previewData, renderActions } = usePreviewDataJSON();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CustomizableSearchBar />
+      <CustomizableTableContent
+        data={data}
+        title="Table Post"
+        columns={[
+          { ...TablePost.columns.id },
+          { ...TablePost.columns.useId },
+          { ...TablePost.columns.title },
+          { ...TablePost.columns.type },
+          { ...TablePost.columns.actions, render: renderActions },
+        ]}
+      />
+      <CustomizableTablePagination pageSize={25} changePageData={onFetchData} />
+      <PreviewDataJSON data={previewData} />
     </div>
   );
 }
+
+const PreviewDataJSON = (props: any) => {
+  const { data } = props;
+  return <pre>{JSON.stringify(data, null, 4)}</pre>;
+};
 
 export default App;
