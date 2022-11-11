@@ -6,20 +6,58 @@ import { useDispatch, useSelector } from "react-redux";
 import virtualData from "../../sample-data.json";
 import { setTimeOutAsync } from "../helpers/async.utils";
 
-export const getData = async (
-  page: number,
-  page_size: number = DEFAULT_PAGE_SIZE,
-  timeout: number = 1000
-) => {
-  await setTimeOutAsync(timeout);
+interface ParamsGetData {
+  page: number;
+  pageSize: number;
+  filter?: { field: string; value: unknown };
+  sortInfo?: { field: string; isIncrease: boolean } | null;
+}
 
-  const startInd = page * page_size;
-  const endInd = page * page_size + page_size;
-  const copyData = [...virtualData];
+interface PostData {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+  [key: string]: any;
+}
+
+const sortIncrement = (arr: any[], field: string) => {
+  return arr.sort((a, b) => a[field] - b[field]);
+};
+
+const sortDecrement = (arr: any[], field: string) => {
+  return arr.sort((a, b) => b[field] - a[field]);
+};
+
+export const getData = async (
+  option: ParamsGetData,
+  delayTimeInMillisecond: number
+) => {
+  await setTimeOutAsync(delayTimeInMillisecond);
+  const { filter, page, pageSize, sortInfo } = option;
+
+  let copyData = [];
+  let total = virtualData.length;
+
+  if (filter?.value !== undefined && filter?.value !== "") {
+    const { field, value } = filter;
+    copyData = virtualData.filter((data: PostData) => data[field] === value);
+    total = copyData.length;
+  } else copyData = [...virtualData];
+
+  console.log({ sortInfo });
+  if (sortInfo?.field) {
+    const { field, isIncrease } = sortInfo;
+    if (isIncrease) copyData = sortIncrement(copyData, field);
+    else copyData = sortDecrement(copyData, field);
+  }
+
+  const startInd = page * pageSize;
+  const endInd = page * pageSize + pageSize;
 
   return {
     items: copyData.slice(startInd, endInd),
-    total: virtualData.length,
+    total,
   };
 };
 
@@ -30,18 +68,33 @@ export const useFetchData = () => {
 
   const dispatcher = useDispatch();
   const data = useSelector((state: any) => state.postState.posts);
+  const searchParams = useSelector(
+    (state: any) => state.postState.searchParams
+  );
 
   useEffect(() => {
-    async function loadData() {
-      await onFetchData(0, 1000);
-    }
+    const loadData = async () => {
+      await onFetchData({ page: 0 }, 1000);
+    };
     loadData();
   }, []);
 
-  const onFetchData = async (page: number, timeout: number = 0) => {
+  const onFetchData = async (
+    params: Partial<ParamsGetData>,
+    delayTime: number = 0
+  ) => {
     onSetLoading();
-const { items, total } = await getData(page, DEFAULT_PAGE_SIZE, timeout);
+
+    const finalGetParams = {
+      page: params.page || 0,
+      pageSize: params.pageSize || DEFAULT_PAGE_SIZE,
+      filter: params.filter || searchParams,
+      sortInfo: params.sortInfo || null,
+    };
+    const { items, total } = await getData(finalGetParams, delayTime);
+
     dispatcher(onGetPosts(items));
+
     dispatcher(onSetTotalPosts(total));
     onSetPending();
   };

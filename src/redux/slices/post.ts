@@ -5,6 +5,7 @@ const initialState = {
   currentPost: {},
   total: 0,
   currentPage: 0,
+  searchParams: { field: "type", value: "" },
 };
 
 export const postsSlice = createSlice({
@@ -25,11 +26,20 @@ export const postsSlice = createSlice({
       const { payload } = action;
       state.currentPage = payload;
     },
+
+    onSetSearchParams: (state, action) => {
+      const { payload } = action;
+      state.searchParams = payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { onGetPosts, onSetTotalPosts, onChangeCurrentPage } =
-  postsSlice.actions;
+export const {
+  onGetPosts,
+  onSetTotalPosts,
+  onChangeCurrentPage,
+  onSetSearchParams,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

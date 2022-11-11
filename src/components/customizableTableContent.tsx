@@ -1,13 +1,44 @@
-import "./customizableTableContent.css";
+import { useEffect, useState } from "react";
+import "./customizableTableContent.scss";
 
+interface SortableInfo {
+  [ind: string]: { field: string; isIncrease: boolean };
+}
 export const CustomizableTableContent = (props: any) => {
-  const { data, title, columns } = props;
+  const { data, title, columns, sortData } = props;
 
   const getRowDisplay = (row: any) => {
     return (columns || []).map((column: any) => (
       <td>{column.render ? column.render(row) : row[column.field]}</td>
     ));
   };
+
+  const [sortInfo, setSortInfo] = useState({} as SortableInfo);
+
+  const onHandleSortColumn = (field: string) => {
+    const sortingData = {
+      field,
+      isIncrease: !sortInfo[field].isIncrease,
+    };
+    setSortInfo({
+      ...sortInfo,
+      [field]: sortingData,
+    });
+    sortData({
+      sortInfo: sortingData,
+    });
+  };
+
+  useEffect(() => {
+    const sortableInfo: SortableInfo = {};
+    columns.forEach((col: any) => {
+      if (col.sortable) {
+        sortableInfo[col.field] = { field: col.field, isIncrease: true };
+      }
+    });
+    console.log({ sortableInfo });
+    setSortInfo(sortableInfo);
+  }, []);
 
   return (
     <div
@@ -36,7 +67,21 @@ export const CustomizableTableContent = (props: any) => {
       <table aria-label="customized table">
         <tr>
           {columns.map((col: any, index: number) => (
-            <th key={col.title + index}>{col.title}</th>
+            <th key={col.title + index}>
+              <span>{col.title}</span>
+              {col.sortable && (
+                <img
+                  src={`${
+                    sortInfo[col.field]?.isIncrease
+                      ? "./images/up.png"
+                      : "./images/down.png"
+                  }`}
+                  alt=""
+                  className="table-header__sort-img"
+                  onClick={() => onHandleSortColumn(col.field)}
+                />
+              )}
+            </th>
           ))}
         </tr>
         {data.map((row: any, index: number) => (

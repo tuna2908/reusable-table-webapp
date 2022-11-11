@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <CustomizableSearchBar />
+      <CustomizableSearchBar searchData={onFetchData} />
       <CustomizableTableContent
         data={data}
         title="Table Post"
@@ -23,6 +23,7 @@ function App() {
           { ...TablePost.columns.type },
           { ...TablePost.columns.actions, render: renderActions },
         ]}
+        sortData={onFetchData}
       />
       <CustomizableTablePagination pageSize={25} changePageData={onFetchData} />
       <PreviewDataJSON data={previewData} />

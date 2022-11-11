@@ -11,13 +11,13 @@ export const CustomizableTablePagination = (props: any) => {
   const handleBackButtonClick = () => {
     const prevPage = currentPage - 1;
     dispatcher(onChangeCurrentPage(prevPage));
-    changePageData(prevPage);
+    changePageData({ page: prevPage });
   };
 
   const handleNextButtonClick = () => {
     const nextPage = currentPage + 1;
     dispatcher(onChangeCurrentPage(nextPage));
-    changePageData(nextPage);
+    changePageData({ page: nextPage });
   };
 
   const IconClass = `pagination__icon ${
@@ -26,6 +26,7 @@ export const CustomizableTablePagination = (props: any) => {
 
   return (
     <div className={"classes.root"}>
+      <div>total of {total}</div>
       <button
         onClick={handleBackButtonClick}
         disabled={currentPage === 0 || isDisable}

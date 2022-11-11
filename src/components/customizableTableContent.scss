@@ -16,17 +16,8 @@ table {
 }
 
 tr:nth-child(odd) {
-  /*zebra stripe for data row*/
   background-color: #d6eeee;
 }
-    
-/* th:nth-child(even) {
-  background-color: rgba(150, 212, 212, 0.4);
-}
-
-td:nth-child(even) {
-  background-color: rgba(150, 212, 212, 0.4);
-} */
 
 tr {
   border-bottom: 1px solid #ddd; /*Horizontal Dividers*/
@@ -34,10 +25,12 @@ tr {
 
 tr:hover {
   background-color: #ddd;
-} /*hover data cell*/
-/* th:hover {
-  background-color: #d6eeee;
-} 
-tr:hover {
-  background-color: #d6eeee;
-}  */
+}
+
+.table-header {
+  &__sort-img {
+    width: 15px;
+    margin-left: 8px;
+    cursor: pointer;
+  }
+}

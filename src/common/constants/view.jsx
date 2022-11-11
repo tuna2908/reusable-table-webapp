@@ -3,10 +3,13 @@ export const TablePost = {
     id: {
       title: "ID",
       field: "id",
+      sortable: true,
+
     },
     useId: {
       title: "User Id",
       field: "userId",
+      sortable: true,
     },
     title: {
       title: "Title",
