@@ -83,20 +83,23 @@ export const useFetchData = () => {
     params: Partial<ParamsGetData>,
     delayTime: number = 0
   ) => {
-    onSetLoading();
+    try {
+      onSetLoading();
+      const finalGetParams = {
+        page: params.page || 0,
+        pageSize: params.pageSize || DEFAULT_PAGE_SIZE,
+        filter: params.filter || searchParams,
+        sortInfo: params.sortInfo || null,
+      };
+      const { items, total } = await getData(finalGetParams, delayTime);
 
-    const finalGetParams = {
-      page: params.page || 0,
-      pageSize: params.pageSize || DEFAULT_PAGE_SIZE,
-      filter: params.filter || searchParams,
-      sortInfo: params.sortInfo || null,
-    };
-    const { items, total } = await getData(finalGetParams, delayTime);
+      dispatcher(onGetPosts(items));
 
-    dispatcher(onGetPosts(items));
-
-    dispatcher(onSetTotalPosts(total));
-    onSetPending();
+      dispatcher(onSetTotalPosts(total));
+      onSetPending();
+    } catch (error) {
+      onSetPending();
+    }
   };
 
   return { data, status, onFetchData };

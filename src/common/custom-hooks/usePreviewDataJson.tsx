@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const usePreviewDataJSON = () => {
   const [previewData, setPreviewData] = useState([]);
+  const previewDataIds = previewData.map((data: any) => data.id);
 
   const onSelectData = (e: any, rowData: any) => {
     if (e.target.checked === true) {
@@ -13,11 +14,18 @@ export const usePreviewDataJSON = () => {
     }
   };
 
-  const renderActions = (rowData: any) => (
-    <div style={{ display: "flex" }}>
-      <input type="checkbox" onChange={(e) => onSelectData(e, rowData)} />
-    </div>
-  );
+  const renderActions = (rowData: any) => {
+    const isChecked = previewDataIds.includes(rowData.id);
+    return (
+      <div style={{ display: "flex" }}>
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={(e) => onSelectData(e, rowData)}
+        />
+      </div>
+    );
+  };
 
-  return { previewData, onSelectData, renderActions };
+  return { previewData, onSelectData, renderActions, setPreviewData };
 };

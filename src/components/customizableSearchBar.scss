@@ -1,65 +1,27 @@
-@mixin align-h-center {
-  display: flex !important;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-@mixin align-v-center {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+@import "../styles/mixin.scss";
 
 .search-bar {
-  &__input {
-    height: 50px;
-    margin-top: 10px !important;
-  }
-
   &__container {
     @include align-h-center;
-    // @include theme-aware("background", "colorLinearGradientTable", "colors");
-    justify-content: flex-end;
+    justify-content: flex-start;
     height: 60px;
     border-radius: 15px;
   }
 
   &__content {
     @include align-h-center;
-    // @include theme-aware("color", "textColor", "colors");
     justify-content: space-between;
     margin: 0 10px;
   }
 
-  // &__search-btn {
-  //     @include align-h-center;
-  //     @include theme-aware('background', 'colorLinearGradient', 'colors');
-  //     width: 110px;
-  //     height: 40px;
-  //     border-radius: 15px;
-  //     color: white;
-
-  //     cursor: pointer;
-  //     margin: 0 10px;
-  //     position: relative;
-  // }
-
-  &__search-btn {
-    display: inline;
-    padding: 8px 10px;
-    margin: 10px;
-    border-radius: 10px;
-    // display: flex;
-    // align-items: center;
-    // max-width: 40px;
-    // overflow-x: hidden;
-
-    // @include theme-aware("color", "textColor", "colors");
-  }
   &__icon {
-    content: url("../../public/images/search.png");
+    &--search {
+      content: url("../../public/images/search.png");
+    }
+
+    &--success {
+      content: url("../../public/images/checked.png");
+    }
     width: 20px;
     height: 20px;
     -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;

@@ -50,7 +50,7 @@ export const CustomizableSearchBar = (props: any) => {
       dispatcher(onSetSearchParams(searchParams));
       dispatcher(onChangeCurrentPage(0));
 
-      await setTimeOutAsync(500, onSetSuccess);
+      await setTimeOutAsync(0, onSetSuccess);
       await setTimeOutAsync(1500, onSetPending);
     } catch (err) {
       console.log("doSearch", err);
@@ -64,19 +64,22 @@ export const CustomizableSearchBar = (props: any) => {
         <div className={`setting__headbar__icon-success`} />
         <input
           ref={inputRef}
-          title={"post category"}
+          placeholder={"enter type"}
           style={{ marginLeft: 10 }}
-          className={"search-bar__nput"}
         />
       </div>
 
       <VerticalLine />
       <div className="search-bar__search-btn" onClick={doSearch}>
         {status === COMPONENT_STATUS.PENDING && (
-          <img className={`search-bar__icon`} alt="" title="searching" />
+          <img
+            className={`search-bar__icon search-bar__icon--search`}
+            alt=""
+            title="searching"
+          />
         )}
         {status === COMPONENT_STATUS.SUCCESS && (
-          <div className={`setting__headbar__icon-success`} />
+          <div className={`search-bar__icon search-bar__icon--success`} />
         )}
       </div>
     </div>

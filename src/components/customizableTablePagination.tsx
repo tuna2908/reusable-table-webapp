@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getNumPages } from "../common/helpers/pagination.utils";
 import { onChangeCurrentPage } from "../redux/slices/post";
+import "./customizableTablePagination.scss";
 
 export const CustomizableTablePagination = (props: any) => {
   const { pageSize, isDisable, changePageData } = props;
@@ -25,25 +26,29 @@ export const CustomizableTablePagination = (props: any) => {
   }`;
 
   return (
-    <div className={"classes.root"}>
-      <div>total of {total}</div>
-      <button
-        onClick={handleBackButtonClick}
-        disabled={currentPage === 0 || isDisable}
-        className={IconClass}
-        aria-label="previous page"
-      >
-        {"< Prev"}
-      </button>
-      <div>{currentPage + 1}</div>
-      <button
-        onClick={handleNextButtonClick}
-        disabled={currentPage >= getNumPages(total, pageSize) - 1 || isDisable}
-        className={IconClass}
-        aria-label="next page"
-      >
-        {"Next >"}
-      </button>
+    <div className={"pagination__container"}>
+      <div style={{ marginLeft: 10 }}>total of {total}</div>
+      <div className={"pagination__button-area"}>
+        <button
+          onClick={handleBackButtonClick}
+          disabled={currentPage === 0 || isDisable}
+          className={IconClass}
+          aria-label="previous page"
+        >
+          {"< Prev"}
+        </button>
+        <span style={{ padding: "0 10px" }}>{currentPage + 1}</span>
+        <button
+          onClick={handleNextButtonClick}
+          disabled={
+            currentPage >= getNumPages(total, pageSize) - 1 || isDisable
+          }
+          className={IconClass}
+          aria-label="next page"
+        >
+          {"Next >"}
+        </button>
+      </div>
     </div>
   );
 };

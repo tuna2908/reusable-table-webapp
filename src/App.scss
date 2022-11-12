@@ -1,0 +1,14 @@
+@import "./styles/mixin.scss";
+
+.app {
+  &__container {
+    @include align-h-between;
+  }
+
+  &__preview-area {
+    width: 37%;
+
+    padding: 0 10px;
+    margin-right: 4px;
+  }
+}

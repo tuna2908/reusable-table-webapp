@@ -1,0 +1,14 @@
+@import "../styles/mixin.scss";
+
+.pagination {
+  &__container {
+    @include align-h-between;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  &__button-area {
+    @include align-h-center;
+    margin-right: 10px;
+  }
+}

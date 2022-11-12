@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { COMPONENT_STATUS } from "../common/constants";
 import "./customizableTableContent.scss";
 
 interface SortableInfo {
   [ind: string]: { field: string; isIncrease: boolean };
 }
 export const CustomizableTableContent = (props: any) => {
-  const { data, title, columns, sortData } = props;
+  const { data, columns, sortData, fetchStatus } = props;
 
   const getRowDisplay = (row: any) => {
     return (columns || []).map((column: any) => (
@@ -36,36 +37,16 @@ export const CustomizableTableContent = (props: any) => {
         sortableInfo[col.field] = { field: col.field, isIncrease: true };
       }
     });
-    console.log({ sortableInfo });
     setSortInfo(sortableInfo);
   }, []);
 
   return (
-    <div
-      style={{
-        marginTop: 20,
-      }}
-    >
-      <div
-        style={{
-          padding: "16px 22px 1%",
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
-          minHeight: 64,
-          verticalAlign: "middle",
-          fontSize: "1.25rem",
-          fontFamily: "Roboto",
-          fontWeight: 500,
-          lineHeight: 1.6,
-          letterSpacing: "0.0075em",
-          boxShadow: "0 20px 27px 0 rgb(0 0 0 / 5%)",
-          backgroundColor: "#fff",
-        }}
+    <div className="table__container">
+      <table
+        aria-label="customized table"
+        style={{ width: "100%", height: "100%" }}
       >
-        {title}
-      </div>
-      <table aria-label="customized table">
-        <tr>
+        <tr className="table__header table__header--sticky">
           {columns.map((col: any, index: number) => (
             <th key={col.title + index}>
               <span>{col.title}</span>
@@ -77,13 +58,21 @@ export const CustomizableTableContent = (props: any) => {
                       : "./images/down.png"
                   }`}
                   alt=""
-                  className="table-header__sort-img"
+                  className="table__header__sort-img"
                   onClick={() => onHandleSortColumn(col.field)}
                 />
               )}
             </th>
           ))}
         </tr>
+
+        {fetchStatus === COMPONENT_STATUS.LOADING && (
+          <h1 className="table__loading">LOADING...</h1>
+        )}
+
+        {fetchStatus !== COMPONENT_STATUS.LOADING && data.length === 0 && (
+          <h1 className="table__loading">No Data To Show</h1>
+        )}
         {data.map((row: any, index: number) => (
           <tr key={row.id}>{getRowDisplay(row)}</tr>
         ))}

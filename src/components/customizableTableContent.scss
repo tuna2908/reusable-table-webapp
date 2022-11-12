@@ -1,3 +1,5 @@
+@import "../styles/mixin.scss";
+
 table,
 th,
 td {
@@ -18,6 +20,9 @@ table {
 tr:nth-child(odd) {
   background-color: #d6eeee;
 }
+th {
+  background-color: #ffe48ade;
+}
 
 tr {
   border-bottom: 1px solid #ddd; /*Horizontal Dividers*/
@@ -27,10 +32,30 @@ tr:hover {
   background-color: #ddd;
 }
 
-.table-header {
-  &__sort-img {
-    width: 15px;
-    margin-left: 8px;
-    cursor: pointer;
+.table {
+  &__container {
+    max-height: calc(100vh - 360px);
+    height: calc(100vh - 297px);
+    border-radius: 10px;
+    overflow-y: scroll;
+    position: relative;
+    padding: 10px;
+  }
+  &__header {
+    max-height: 30px;
+    height: 30px;
+    &__sort-img {
+      width: 15px;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+    &--sticky {
+      position: sticky;
+      top: -12px;
+    }
+  }
+
+  &__loading {
+    @include align-center-absolute;
   }
 }
