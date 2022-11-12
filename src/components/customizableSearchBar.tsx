@@ -5,36 +5,12 @@ import { setTimeOutAsync } from "../common/helpers/async.utils";
 import "./customizableSearchBar.scss";
 import { useDispatch } from "react-redux";
 import { onChangeCurrentPage, onSetSearchParams } from "../redux/slices/post";
+import { InputRef } from "../common/types";
 
-export const VerticalLine = () => (
-  <div style={{ height: "90%", display: "flex", flexDirection: "column" }}>
-    <div
-      style={{
-        height: "50%",
-        float: "left",
-        width: 1.5,
-        backgroundImage:
-          "linear-gradient(to top, rgb(211, 220, 230), rgba(211, 220, 230, 0))",
-      }}
-    />
-    <div
-      style={{
-        height: "50%",
-        float: "left",
-        width: 1.5,
-        backgroundImage:
-          "linear-gradient(to top, rgba(211, 220, 230, 0), rgb(211, 220, 230))",
-      }}
-    />
-  </div>
-);
-
-type InputRef = React.LegacyRef<HTMLInputElement>;
-
-export const CustomizableSearchBar = (props: any) => {
+export const CustomizableSearchBar = (props: PropsTypes) => {
   const { searchData } = props;
 
-  const { status, onSetLoading, onSetPending, onSetSuccess, onSetFailed } =
+  const { status, onSetLoading, onSetPending, onSetSuccess } =
     useChangeStatus(COMPONENT_STATUS.PENDING);
 
   const inputRef: InputRef = useRef(null);
@@ -53,7 +29,6 @@ export const CustomizableSearchBar = (props: any) => {
       await setTimeOutAsync(0, onSetSuccess);
       await setTimeOutAsync(1500, onSetPending);
     } catch (err) {
-      console.log("doSearch", err);
       await setTimeOutAsync(1500, onSetPending);
     }
   };
@@ -69,7 +44,6 @@ export const CustomizableSearchBar = (props: any) => {
         />
       </div>
 
-      <VerticalLine />
       <div className="search-bar__search-btn" onClick={doSearch}>
         {status === COMPONENT_STATUS.PENDING && (
           <img
@@ -85,3 +59,7 @@ export const CustomizableSearchBar = (props: any) => {
     </div>
   );
 };
+
+interface PropsTypes {
+  searchData: (...params: any) => Promise<void>;
+}

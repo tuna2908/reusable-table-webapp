@@ -1,10 +1,7 @@
 import "./App.scss";
 import { TablePost } from "./common/constants/view";
-import { useFetchData } from "./common/custom-hooks/useFetchData";
-import { usePreviewDataJSON } from "./common/custom-hooks/usePreviewDataJson";
-import { CustomizableSearchBar } from "./components/customizableSearchBar";
-import { CustomizableTableContent } from "./components/customizableTableContent";
-import { CustomizableTablePagination } from "./components/customizableTablePagination";
+import { useFetchData, usePreviewDataJSON } from "./common/custom-hooks";
+import { CustomizableSearchBar, CustomizableTableContent, CustomizableTablePagination } from "./components";
 
 function App() {
   const { data, onFetchData, status } = useFetchData();
@@ -18,7 +15,6 @@ function App() {
           <CustomizableSearchBar searchData={onFetchData} />
           <CustomizableTableContent
             data={data}
-            title="Table Post"
             columns={[
               { ...TablePost.columns.id },
               { ...TablePost.columns.useId },
@@ -40,7 +36,7 @@ function App() {
   );
 }
 
-const PreviewDataJSON = (props: any) => {
+const PreviewDataJSON = (props: { data: object[] }) => {
   const { data } = props;
   return (
     <div className="app__preview-area">
