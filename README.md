@@ -3,7 +3,7 @@
 this project has applied:
 
 1. redux-toolkit
-2. sass precompiler
+2. sass precompiler + BEM (block element modifier) for CSS code structuring
 3. typescript
 4. react-hooks
 5. JEST + react-testing-library
